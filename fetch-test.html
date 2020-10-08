@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>fetch test</title>
+</head>
+<body>
+
+<p>
+    <label for="method">action:</label>
+    <select id="method">
+        <option>GET</option>
+        <option>POST</option>
+        <option>PUT</option>
+        <option>DELETE</option>
+    </select>
+</p>
+
+
+<p>
+    <label for="url">url:</label>
+    <input id="url" type="url" size="60" placeholder="http://localhost:8002/platform/p/v1/patient">
+</p>
+
+<p>
+    <label for="body">body json:</label>
+    <textarea id="body" rows="1" cols="60"></textarea>
+</p>
+
+<p>
+    <button id="send">send</button>
+</p>
+
+<div>
+    <p>response status: <span id="response-status"></span></p>
+</div>
+
+<div>
+    <p>response body: <span id="response-body"></span></p>
+</div>
+
+<script src="fetch-test.js"></script>
+</body>
+</html>
