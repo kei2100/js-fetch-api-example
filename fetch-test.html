@@ -16,7 +16,6 @@
     </select>
 </p>
 
-
 <p>
     <label for="url">url:</label>
     <input id="url" type="url" size="60" placeholder="http://localhost:8002/platform/p/v1/patient">
@@ -39,6 +38,53 @@
     <p>response body: <span id="response-body"></span></p>
 </div>
 
-<script src="fetch-test.js"></script>
+<script>
+    const send = document.getElementById("send");
+    let accessToken = "";
+
+    send.onclick = () => {
+        const method = document.getElementById("method").value;
+        const url = document.getElementById("url").value;
+        const body = document.getElementById("body").value.trim();
+
+        request(method, url, body, accessToken).then(
+            response => {
+                const token = response.headers.get("x-access-token");
+                if (token) {
+                    accessToken = token;
+                }
+                const status = document.getElementById("response-status");
+                status.innerText = "status: " + response.status.toString();
+
+                response.text().then(data => {
+                    const body = document.getElementById("response-body");
+                    body.innerText = "body: " + data;
+                })
+            }
+        )
+    };
+
+    async function request(method, url, body, accessToken) {
+        const headers = {
+            "X-Requested-With": "fetch",
+        };
+        if (body) {
+            headers["Content-Type"] = "application/json";
+        }
+        if (accessToken) {
+            headers["Authorization"] = "Bearer " + accessToken ;
+        }
+
+        const resp = await fetch(url, {
+            method: method,
+            mode: "cors",
+            cache: "no-cache",
+            body: body ? body : undefined,
+            headers: headers,
+        });
+        return resp;
+    }
+</script>
 </body>
 </html>
+
